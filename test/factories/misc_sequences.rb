@@ -9,3 +9,7 @@ end
 Factory.sequence :login do |n|
   "login#{n}"
 end
+
+Factory.sequence :email do |n|
+  "user#{n}@example.com"
+end

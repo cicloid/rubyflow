@@ -61,4 +61,5 @@ Rails::Initializer.run do |config|
   
   config.gem 'mislav-will_paginate', :version => '>=2.2.0', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'configatron'
+  config.gem 'thoughtbot-clearance', :lib => 'clearance'
 end
