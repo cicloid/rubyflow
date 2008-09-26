@@ -2,17 +2,17 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
-
-  # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => '????? you'll need to sort this out yourself!'
+  helper :all
+  protect_from_forgery
+  include Clearance::ApplicationController
   
-  def passes_captcha?
-    params[:captcha] && Digest::SHA1.hexdigest(params[:captcha].upcase.chomp)[0..5] == params[:captcha_guide]
+  def passes_captcha?(obj)
+    result = params[:captcha] && Digest::SHA1.hexdigest(params[:captcha].upcase.chomp)[0..5] == params[:captcha_guide]
+    if !result && obj
+       obj.errors.add("Word")
+    end
+    result
   end
-  
-  include AuthenticatedSystem
   
   def render_404
     render :status => 404, :text => '404 Not Found'
@@ -27,5 +27,23 @@ class ApplicationController < ActionController::Base
   end
   
   helper_method :config
+  
+protected
+  # Stuff from restful-authentication, that clearance doesn't provide
+  
+  def admin?
+    logged_in? && current_user.admin == 1
+  end
+  
+  helper_method :admin?
+  
+  def admin_required
+    admin? || deny_access
+  end
+  
+  def login_required
+    logged_in? || deny_access
+  end
+  
   
 end

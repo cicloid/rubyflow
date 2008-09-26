@@ -2,9 +2,9 @@
 
 <% form_tag session_path do -%>
   <p>
-    <label for="login">Login</label>
+    <label for="login">Email</label>
     <br/>
-    <%= text_field_tag 'login' %>
+    <%= text_field_tag 'session[email]' %>
   </p>
 
   <p>
@@ -16,12 +16,12 @@
   <p>
     <label for="password">Password</label>
     <br/>
-    <%= password_field_tag 'password' %>
+    <%= password_field_tag 'session[password]' %>
   </p>
 
   <p>
     <label for="remember_me">Remember me (for a year):</label>
-    <%= check_box_tag 'remember_me' %>
+    <%= check_box_tag 'session[remember_me]' %>
   </p>
 
   <p>

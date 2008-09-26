@@ -9,13 +9,14 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :categories
 
+  map.with_options :controller => 'sessions'  do |m|
+    m.login  '/login',  :action => 'new'
+    m.logout '/logout', :action => 'destroy'
+  end
   map.resources :users
-  map.resource :session, :controller => 'session'  
-
+  map.resource :session
 
   map.signup '/signup', :controller => 'users', :action => 'new'
-  map.login  '/login', :controller => 'session', :action => 'new'
-  map.logout '/logout', :controller => 'session', :action => 'destroy'
 
   map.tag  '/tag/:id', :controller => 'items', :action => 'list_for_tags'
   map.tags '/tags/:id', :controller => 'items', :action => 'list_for_tags'

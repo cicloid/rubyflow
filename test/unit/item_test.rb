@@ -20,7 +20,7 @@ class ItemTest < ActiveSupport::TestCase
     should_require_unique_attributes :name
     
     should_allow_values_for :name, 'name-1', 'name_1'
-    should_not_allow_values_for :name, 'name 1'
+    should_not_allow_values_for :name, 'name 1', :message => 'is invalid (alphanumerics, hyphens and underscores only)'
     
     should 'use name for #to_param' do
       assert_equal @item.name, @item.to_param

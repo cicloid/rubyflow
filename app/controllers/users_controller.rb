@@ -1,30 +1,17 @@
 class UsersController < ApplicationController
+  include Clearance::UsersController
+  
   before_filter :admin_required, :except => [:new, :create]
 
-  def new
-  end
-
   def create
-    cookies.delete :auth_token
-    
-    @user = User.new(params[:user])
-    unless passes_captcha?
-      @user.errors.add("Word")
-      render :action => 'new'
-      return
-    end    
-
-    if @user.save
-      self.current_user = @user
-      redirect_back_or_default('/')
+    @user = User.new params[:user]
+    if passes_captcha?(@user) && @user.save
+      login(@user)
       flash[:notice] = "Thanks for signing up! You have been logged in automagically!"
+      redirect_back_or root_url
     else
-      render :action => 'new'
+      render :action => "new"
     end
-  end
-  
-  def index
-    @users = User.find(:all, :order => 'id DESC', :limit => 100)
   end
 
   def approve

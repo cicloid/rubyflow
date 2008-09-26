@@ -14,9 +14,6 @@ class UsersControllerTest < ActionController::TestCase
       @user = User.find_by_login @user_attributes[:login]
     end
     
-    should 'delete authorization cookie' do
-       assert_equal [], @response.cookies['auth_token']
-    end
     should_redirect_to 'items_url'
     should 'actually create the user' do
       assert_not_nil @user
